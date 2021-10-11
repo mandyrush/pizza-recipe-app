@@ -1,7 +1,7 @@
 let db = require('../db/db');
 
 const getRecipes = (req, res) => {
-    console.log('In the getRecipes route');
+    console.log('Get all recipes route.');
 
     let sql = 'select * from recipes';
 
@@ -16,9 +16,13 @@ const getRecipes = (req, res) => {
     })
 }
 
+const getRecipe = (req, res) => {
+    console.log('Get recipe by id route. ', req.params.id);
+}
+
 // Create a new recipe
 const createRecipe = (req, res) => {
-    console.log('/recipes', req.body);
+    console.log('Create a recipe route. ', req.body);
 
     // Get values from the request
     let recipeName = req.body.recipe_name;
@@ -42,7 +46,18 @@ const createRecipe = (req, res) => {
     });
 }
 
+const updateRecipe = (req, res) => {
+    console.log('Update recipe route. ', req.body);
+}
+
+const deleteRecipe = (req, res) => {
+    console.log('Delete recipe by id route. ', req.params.id);
+}
+
 module.exports = {
     getRecipes,
-    createRecipe
+    getRecipe,
+    createRecipe,
+    updateRecipe,
+    deleteRecipe
 }
