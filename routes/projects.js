@@ -13,9 +13,9 @@ router.get('/projects/:id', controller.showProject);
 router.post('/project', controller.createProject);
 
 // Update a project by it's id
-router.put('/projects/:id', updateProject);
+router.put('/project/:id', updateProject);
 
 // Delete a project by it's id
-router.delete('/projects/:id', deleteProject);
+router.delete('/project/:id', deleteProject);
 
 module.exports = router;

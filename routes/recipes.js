@@ -10,12 +10,12 @@ router.get('/recipes', controller.getRecipes);
 router.get('/recipes/:id', controller.getRecipe);
 
 // Create a new recipe
-router.post('/recipes', controller.createRecipe);
+router.post('/recipe', controller.createRecipe);
 
 // Update a recipe by it's id
-router.put('/recipes/:id', controller.updateRecipe);
+router.put('/recipe/:id', controller.updateRecipe);
 
 // Delete a recipe by it's id
-router.delete('/recipes/:id', controller.deleteRecipe);
+router.delete('/recipe/:id', controller.deleteRecipe);
 
 module.exports = router;
