@@ -1,16 +1,23 @@
 let mysql = require('mysql');
 require('dotenv').config();
 
-let connection = mysql.createConnection(process.env.CLEARDB_DATABASE_URL);
-
-connection.connect();
-
-connection.query('select now()', (error, rows) => {
-    if (error) {
-        console.log('There was an error connecting to the database.', error);
-    } else {
-        console.log('Successfully connected to the database');
+class Connection {
+    constructor () {
+        if (!this.pool) {
+            console.log('Creating connection pool...');
+            this.pool = mysql.createPool({
+                connectionLimit: 100,
+                host: process.env.CLEARDB_HOST,
+                user: process.env.CLEARDB_USER,
+                password: process.env.CLEARDB_PASSWORD,
+                database: process.env.CLEARDB_DATABASE
+            })
+            return this.pool;
+        }
+        return this.pool;
     }
-});
+}
 
-module.exports = connection;
+const instance = new Connection();
+
+module.exports = instance;

@@ -8,6 +8,9 @@ let port = process.env.PORT;
 // Add functionality to parse json body
 app.use(express.json());
 
+const authRoutes = require('./routes/auth');
+app.use(authRoutes);
+
 const recipeRoutes = require('./routes/recipes');
 app.use(recipeRoutes);
 
