@@ -16,7 +16,7 @@ app.use(recipeRoutes);
 
 // Testing connection
 app.get('/', (req, res) => {
-    res.send('This is working!');
+    res.send('This is working still!');
 });
 
 app.listen(port, () => {
