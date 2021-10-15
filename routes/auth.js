@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-let middleware = require('../middleware/auth');
-let controller = require('../controllers/authCheck');
+const { requiresAuth } = require('express-openid-connect');
 
-router.get('/authorized', middleware.jwtCheck, controller.authCheck);
+require('dotenv').config();
+
+let controller = require('../controllers/auth');
+
+router.get('/', controller.isLoggedIn);
+
+router.get('/profile', requiresAuth(), controller.viewProfile);
+
+// router.post('/login', controller.login);
 
 module.exports = router;

@@ -1,27 +1,60 @@
-const showUsers = (req, res) => {
-    console.log('Show all users route.');
-}
+const mysql = require('mysql');
+const pool = require('../db/db');
+const { handleSQLError } = require('../db/error');
 
-const showUser = (req, res) => {
-    console.log('Show single user by id route. ', req.params.id);
+const getAllUsers = (req, res) => {
+    pool.query("SELECT * FROM users", (err, rows) => {
+      if (err) return handleSQLError(res, err)
+      return res.json(rows);
+    })
+  }
+  
+const getUserById = (req, res) => {
+    let sql = "SELECT * FROM users WHERE id = ?"
+    sql = mysql.format(sql, [ req.params.id ])
+
+    pool.query(sql, (err, rows) => {
+        if (err) return handleSQLError(res, err)
+        return res.json(rows);
+    })
 }
 
 const createUser = (req, res) => {
-    console.log('Create new user route. ', req.body);
+    const { firstName, lastName } = req.body
+    let sql = "INSERT INTO users (first_name, last_name) VALUES (?, ?)"
+    sql = mysql.format(sql, [ firstName, lastName ])
+
+    pool.query(sql, (err, results) => {
+        if (err) return handleSQLError(res, err)
+        return res.json({ newId: results.insertId });
+    })
 }
 
-const updateUser = (req, res) => {
-    console.log('Update user by id route. ', req.body);
+const updateUserById = (req, res) => {
+    const { firstName, lastName } = req.body
+    let sql = "UPDATE users SET first_name = ?, last_name = ? WHERE id = ?"
+    sql = mysql.format(sql, [ firstName, lastName, req.params.id ])
+
+    pool.query(sql, (err, results) => {
+        if (err) return handleSQLError(res, err)
+        return res.status(204).json();
+    })
 }
 
-const deleteUser = (req, res) => {
-    console.log('Delete user by id route. ', req.params.id);
+const deleteUserByFirstName = (req, res) => {
+    let sql = "DELETE FROM users WHERE first_name = ?"
+    sql = mysql.format(sql, [ req.params.first_name ])
+
+    pool.query(sql, (err, results) => {
+        if (err) return handleSQLError(res, err)
+        return res.json({ message: `Deleted ${results.affectedRows} user(s)` });
+    })
 }
 
 module.exports = {
-    showUsers,
-    showUser,
+    getAllUsers,
+    getUserById,
     createUser,
-    updateUser,
-    deleteUser
+    updateUserById,
+    deleteUserByFirstName
 }
