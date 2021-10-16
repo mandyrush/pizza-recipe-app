@@ -4,9 +4,10 @@ const { param } = require('../routes/auth');
 const getRecipes = (req, res) => {
     console.log('Get all recipes route.');
 
-    let sql = 'SELECT * FROM recipes';
+    let project_id = req.params.project_id;
+    let sql = 'SELECT * FROM recipes WHERE project_id = ?';
 
-    db.query(sql, (error, results) => {
+    db.query(sql, project_id, (error, results) => {
         if (error) {
             console.log('Failed to return recipes.');
             res.sendStatus(500);
@@ -35,8 +36,7 @@ const getRecipe = (req, res) => {
     })
 }
 
-// @todo project id is hard-coded - figure out how to get it 
-// Figure out logic for versions
+// Figure out logic for versions and parent versions
 
 // Create a new recipe
 const createRecipe = (req, res) => {
@@ -45,7 +45,7 @@ const createRecipe = (req, res) => {
     // Get values from the request
     let name = req.body.name;
     let notes = req.body.notes;
-    let project_id = 15;
+    let project_id = req.params.project_id;
     let version = 1;
     let parent_version = null;
 
@@ -61,7 +61,7 @@ const createRecipe = (req, res) => {
     params.push(parent_version);
 
     // Query the database and send back appropriate status code
-    db.query(sql, params, (error, rows) => {
+    db.query(sql, params, (error, results) => {
         if (error) {
             console.log('Failed to create new recipe.', error);
             res.sendStatus(500);

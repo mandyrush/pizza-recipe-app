@@ -1,5 +1,4 @@
 const db = require('../db/db');
-const { param } = require('../routes/auth');
 
 const getUsers = (req, res) => {
     console.log('Get all users route.');
