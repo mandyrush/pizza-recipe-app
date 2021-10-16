@@ -1,60 +1,102 @@
-const mysql = require('mysql');
-const pool = require('../db/db');
-const { handleSQLError } = require('../db/error');
+const db = require('../db/db');
+const { param } = require('../routes/auth');
 
-const getAllUsers = (req, res) => {
-    pool.query("SELECT * FROM users", (err, rows) => {
-      if (err) return handleSQLError(res, err)
-      return res.json(rows);
+const getUsers = (req, res) => {
+    console.log('Get all users route.');
+
+    db.query("SELECT * FROM users", (error, results) => {
+        if (error) {
+            console.log('Failed to return users. ', error);
+            res.sendStatus(500);
+        } else {
+            console.log('Users: ', results);
+            res.json(results);
+        }
     })
   }
   
 const getUserById = (req, res) => {
-    let sql = "SELECT * FROM users WHERE id = ?"
-    sql = mysql.format(sql, [ req.params.id ])
+    console.log('Get user by id route. ', req.params.id);
 
-    pool.query(sql, (err, rows) => {
-        if (err) return handleSQLError(res, err)
-        return res.json(rows);
+    let id = req.params.id;
+
+    let sql = "SELECT * FROM users WHERE id = ?";
+
+    db.query(sql, id, (error, results) => {
+        if (error) {
+            console.log(`Failed to return user with id ${id}.`);
+            res.sendStatus(500);
+        } else {
+            console.log('User: ', results);
+            res.json(results);
+        }
     })
 }
 
 const createUser = (req, res) => {
-    const { firstName, lastName } = req.body
-    let sql = "INSERT INTO users (first_name, last_name) VALUES (?, ?)"
-    sql = mysql.format(sql, [ firstName, lastName ])
+    console.log('Create user route.');
 
-    pool.query(sql, (err, results) => {
-        if (err) return handleSQLError(res, err)
-        return res.json({ newId: results.insertId });
+    let email = req.body.email;
+
+    let sql = "INSERT INTO users (email) VALUES (?)"
+
+    db.query(sql, email, (error, results) => {
+        if (error) {
+            console.log(`Failed to create a new user.`, error);
+            res.sendStatus(500);
+        } else {
+            console.log('User successfully created!');
+            res.sendStatus(204);
+        }
     })
 }
 
-const updateUserById = (req, res) => {
-    const { firstName, lastName } = req.body
-    let sql = "UPDATE users SET first_name = ?, last_name = ? WHERE id = ?"
-    sql = mysql.format(sql, [ firstName, lastName, req.params.id ])
+const updateUser = (req, res) => {
+    console.log('Update user route.');
+    
+    let id = req.params.id;
 
-    pool.query(sql, (err, results) => {
-        if (err) return handleSQLError(res, err)
-        return res.status(204).json();
+    let email = req.body.email;
+
+    let sql = "UPDATE users SET email = ? WHERE id = ?";
+
+    let params = [];
+    params.push(email);
+    params.push(id);
+
+    db.query(sql, params, (error, results) => {
+        if (error) {
+            console.log(`Failed to update user with id ${id}.`, error);
+            res.sendStatus(500);
+        } else {
+            console.log('User successfully updated!');
+            res.sendStatus(204);
+        }
     })
 }
 
-const deleteUserByFirstName = (req, res) => {
-    let sql = "DELETE FROM users WHERE first_name = ?"
-    sql = mysql.format(sql, [ req.params.first_name ])
+const deleteUser = (req, res) => {
+    console.log('Delete user route.');
 
-    pool.query(sql, (err, results) => {
-        if (err) return handleSQLError(res, err)
-        return res.json({ message: `Deleted ${results.affectedRows} user(s)` });
+    let id = req.params.id;
+
+    let sql = 'DELETE FROM users WHERE id = ?';
+
+    db.query(sql, id, (error, results) => {
+        if (error) {
+            console.log(`Failed to delete user with id ${id}.`, error);
+            res.sendStatus(500);
+        } else {
+            console.log('User successfully deleted!');
+            res.sendStatus(204);
+        }
     })
 }
 
 module.exports = {
-    getAllUsers,
+    getUsers,
     getUserById,
     createUser,
-    updateUserById,
-    deleteUserByFirstName
+    updateUser,
+    deleteUser
 }

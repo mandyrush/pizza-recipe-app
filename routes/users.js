@@ -5,14 +5,14 @@ const middleware = require('../middleware/auth')
 
 const controller = require('../controllers/users');
 
-router.get('/users', controller.getAllUsers)
+router.get('/users', controller.getUsers)
 
 router.get('/users/:id', controller.getUserById)
 
-router.post('/users', middleware.jwtCheck, controller.createUser)
+router.post('/user', controller.createUser)
 
-router.put('/users/:id', middleware.jwtCheck, controller.updateUserById)
+router.put('/user/:id', controller.updateUser)
 
-router.delete('/users/:first_name', middleware.jwtCheck, controller.deleteUserByFirstName)
+router.delete('/user/:id', controller.deleteUser)
 
 module.exports = router;

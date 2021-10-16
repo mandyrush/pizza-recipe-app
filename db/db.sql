@@ -77,12 +77,3 @@ CREATE TABLE users (
   email VARCHAR(255) UNIQUE,
   PRIMARY KEY (id)
 )ENGINE=InnoDB;
-
-
-CREATE TABLE users_credentials (
-  id INT NOT NULL AUTO_INCREMENT,
-  username VARCHAR(25),
-  password VARCHAR(100),
-  PRIMARY KEY (id),
-  UNIQUE KEY (username)
-)ENGINE=InnoDB;
