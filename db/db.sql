@@ -1,21 +1,21 @@
 create table projects (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(1000) NOT NULL,
-    featured_image_id INT
+    featured_image_id INT,
+    user_id INT NOT NULL,
     FOREIGN KEY (featured_image_id) REFERENCES images(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB;
 
 
 create table recipes (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(1000) NOT NULL,
-    notes VARCHAR(10000),
-    user_id INT NOT NULL,
     project_id INT NOT NULL,
     version INT NOT NULL,
     parent_version INT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
+    notes VARCHAR(10000),
 ) ENGINE=InnoDB;
 
 
@@ -55,11 +55,11 @@ create table rating_categories (
 create table ratings (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     recipe_id INT NOT NULL,
-    rating_id INT NOT NULL,
+    rating_category_id INT NOT NULL,
     score INT,
     comments VARCHAR(10000),
     FOREIGN KEY (recipe_id) REFERENCES recipes(id),
-    FOREIGN KEY (rating_id) REFERENCES ratings(id)
+    FOREIGN KEY (rating_category_id) REFERENCES rating_categories(id)
 ) ENGINE=InnoDB;
 
 
@@ -74,8 +74,7 @@ create table images (
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(50),
-  last_name VARCHAR(50),
+  email VARCHAR(255) UNIQUE,
   PRIMARY KEY (id)
 )ENGINE=InnoDB;
 

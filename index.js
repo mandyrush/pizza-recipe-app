@@ -28,6 +28,9 @@ app.use(logger);
 const authRoutes = require('./routes/auth');
 app.use(authRoutes);
 
+const projectRoutes =require('./routes/projects');
+app.use(projectRoutes);
+
 const userRoutes = require('./routes/users');
 app.use(userRoutes);
 
