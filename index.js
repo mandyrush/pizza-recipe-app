@@ -31,11 +31,11 @@ app.use(authRoutes);
 const projectRoutes =require('./routes/projects');
 app.use(projectRoutes);
 
-const userRoutes = require('./routes/users');
-app.use(userRoutes);
-
 const recipeRoutes = require('./routes/recipes');
 app.use(recipeRoutes);
+
+const userRoutes = require('./routes/users');
+app.use(userRoutes);
 
 app.listen(port, () => {
     console.log('Listening on port ', port);

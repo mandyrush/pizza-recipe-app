@@ -76,8 +76,9 @@ const updateProject = (req, res) => {
     params.push(name);
     params.push(featured_image_id);
     params.push(user_id);
+    params.push(id);
 
-    let sql = 'UPDATE projects SET name = ?, featured_image_id = ?, user_id = ?';
+    let sql = 'UPDATE projects SET name = ?, featured_image_id = ?, user_id = ? WHERE id = ?';
 
     db.query(sql, params, (error, rows) => {
         if (error) {
