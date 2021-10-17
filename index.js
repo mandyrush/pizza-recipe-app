@@ -34,6 +34,9 @@ app.use(projectRoutes);
 const recipeRoutes = require('./routes/recipes');
 app.use(recipeRoutes);
 
+const ingredientRoutes = require('./routes/ingredients');
+app.use(ingredientRoutes);
+
 const userRoutes = require('./routes/users');
 app.use(userRoutes);
 

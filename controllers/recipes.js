@@ -4,7 +4,7 @@ const { param } = require('../routes/auth');
 const getRecipes = (req, res) => {
     console.log('Get all recipes route.');
 
-    let project_id = req.params.project_id;
+    let project_id = req.body.project_id;
     let sql = 'SELECT * FROM recipes WHERE project_id = ?';
 
     db.query(sql, project_id, (error, results) => {
@@ -45,7 +45,7 @@ const createRecipe = (req, res) => {
     // Get values from the request
     let name = req.body.name;
     let notes = req.body.notes;
-    let project_id = req.params.project_id;
+    let project_id = req.body.project_id;
     let version = 1;
     let parent_version = null;
 
@@ -69,7 +69,7 @@ const createRecipe = (req, res) => {
             console.log('Recipe successfully created!');
             res.sendStatus(204);
         }
-    })
+    })  
 }
 
 const updateRecipe = (req, res) => {
@@ -80,7 +80,7 @@ const updateRecipe = (req, res) => {
     // Get values from the request
     let name = req.body.name;
     let notes = req.body.notes;
-    let project_id = 15;
+    let project_id = req.body.project_id;
     let version = 1;
     let parent_version = null;
 
