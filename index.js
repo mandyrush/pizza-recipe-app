@@ -37,6 +37,9 @@ app.use(recipeRoutes);
 const ingredientRoutes = require('./routes/ingredients');
 app.use(ingredientRoutes);
 
+const stepRoutes = require('./routes/steps');
+app.use(stepRoutes);
+
 const imageRoutes = require('./routes/images');
 app.use(imageRoutes);
 
