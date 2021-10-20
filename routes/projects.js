@@ -10,12 +10,12 @@ router.get('/projects', controller.showProjects);
 router.get('/projects/:id', controller.showProject);
 
 // Create a new project
-router.post('/project', controller.createProject);
+router.post('/projects', controller.createProject);
 
 // Update a project by it's id
-router.put('/project/:id', controller.updateProject);
+router.put('/projects/:id', controller.updateProject);
 
 // Delete a project by it's id
-router.delete('/project/:id', controller.deleteProject);
+router.delete('/projects/:id', controller.deleteProject);
 
 module.exports = router;

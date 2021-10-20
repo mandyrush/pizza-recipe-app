@@ -10,12 +10,12 @@ router.get('/ingredients', controller.showIngredients);
 router.get('/ingredients/:id', controller.showIngredient);
 
 // Create a new ingredient
-router.post('/ingredient', controller.createIngredient);
+router.post('/ingredients', controller.createIngredient);
 
 // Update an ingredient by it's id
-router.put('/ingredient/:id', controller.updateIngredient);
+router.put('/ingredients/:id', controller.updateIngredient);
 
 // Delete an ingredient by it's id
-router.delete('/ingredient/:id', controller.deleteIngredient);
+router.delete('/ingredients/:id', controller.deleteIngredient);
 
 module.exports = router;

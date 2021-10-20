@@ -3,7 +3,9 @@ const db = require('../db/db');
 const getUsers = (req, res) => {
     console.log('Get all users route.');
 
-    db.query("SELECT * FROM users", (error, results) => {
+    let sql = 'SELECT * FROM users';
+
+    db.query(sql, (error, results) => {
         if (error) {
             console.log('Failed to return users. ', error);
             res.sendStatus(500);

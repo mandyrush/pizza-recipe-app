@@ -22,7 +22,6 @@ const showIngredient = (req, res) => {
     console.log('Show an ingredient by id route. ', req.params.id);
 
     let id = req.params.id;
-
     let sql = 'SELECT * FROM ingredients INNER JOIN recipe_ingredient ON ingredients.id = recipe_ingredient.ingredient_id WHERE ingredient_id = ?';
 
     db.query(sql, id, (error, results) => {
@@ -38,25 +37,11 @@ const showIngredient = (req, res) => {
 
 const createIngredient = (req, res) => {
     console.log('Create a new ingredient route. ', req.body);
-
-    const addIngredient = () => {
+    
         let name = req.body.name;
-        let sql = 'INSERT INTO ingredients SET name = ?';
+        let sql = 'INSERT INTO ingredients (name) VALUES (?)';
 
-        return new Promise((resolve, reject) => {
-            db.query(sql, name, (error, results) => {
-                if (error) {
-                    console.log(`Failed to create ingredient`);
-                    return reject(error);
-                } else {
-                    console.log('Successfully created ingredient');
-                    resolve(results);
-                }
-            })
-        })
-    }
-
-    addIngredient()
+        db.queryWrapper(sql, name)
         .then (results => {
             console.log('Got the insert id: ', results.insertId);
 
@@ -71,17 +56,15 @@ const createIngredient = (req, res) => {
             params.push(quantity);
             params.push(notes);
 
-            let sql = 'INSERT INTO recipe_ingredient SET ingredient_id = ?, recipe_id = ?, quantity = ?, notes = ?';
+            let sql = 'INSERT INTO recipe_ingredient (ingredient_id, recipe_id, quantity, notes) VALUES (?, ?, ?, ?)';
 
-            db.query(sql, params, (error, results) => {
-                if (error) {
-                    console.log(`Failed to create ingredient`);
-                    res.sendStatus(500);
-                } else {
-                    console.log('Successfully created ingredient');
+            db.queryWrapper(sql, params)
+            .then (
+                results => {
+                    console.log(results);
                     res.sendStatus(204);
-                }
-            })            
+                }  
+            )           
         })
         .catch (error => {
             console.log(`Failed to create ingredient`, error);
@@ -92,58 +75,39 @@ const createIngredient = (req, res) => {
 const updateIngredient = (req, res) => {
     console.log('Update an ingredient by id route. ', req.body);
 
+    let name = req.body.name;
     let ingredient_id = req.params.id;
 
-    const updateIngredientName = () => {
-        let name = req.body.name;
+    params = [];
+    params.push(name);
+    params.push(ingredient_id);
 
-        params = [];
-        params.push(name);
+    let sql = 'UPDATE ingredients SET name = ? WHERE id = ?';
+
+    db.queryWrapper(sql, params)
+    .then (results => {
+        console.log(`Updating Ingredient with id: ${ingredient_id}`, results);
+
+        let quantity = req.body.quantity;
+        let notes = req.body.notes;
+
+        let params = [];
+        params.push(quantity);
+        params.push(notes);
         params.push(ingredient_id);
 
-        let sql = 'UPDATE ingredients SET name = ? WHERE id = ?';
+        let sql = 'UPDATE recipe_ingredient SET quantity = ?, notes = ? WHERE ingredient_id = ?';
 
-        return new Promise((resolve, reject) => {
-            db.query(sql, params, (error, results) => {
-                if (error) {
-                    console.log(`Failed to update ingredient`);
-                    return reject(error);
-                } else {
-                    console.log('Successfully updated ingredient');
-                    resolve(results);
-                }
-            })
-        })
-    }
-
-    updateIngredientName()
+        db.queryWrapper(sql, params)
         .then (results => {
-            console.log(`Updating Ingredient with id: ${ingredient_id}`, results);
-
-            let quantity = req.body.quantity;
-            let notes = req.body.notes;
-
-            let ingredientDetailParams = [];
-            ingredientDetailParams.push(quantity);
-            ingredientDetailParams.push(notes);
-            ingredientDetailParams.push(ingredient_id);
-
-            let ingredientDetailsql = 'UPDATE recipe_ingredient SET quantity = ?, notes = ? WHERE ingredient_id = ?';
-
-            db.query(ingredientDetailsql, ingredientDetailParams, (error, results) => {
-                if (error) {
-                    console.log('Failed to update ingredient details, ', error);
-                    res.sendStatus(500);
-                } else {
-                    console.log(`Successfully updated ingredient details, ${ingredientDetailParams}`);
-                    res.sendStatus(204);
-                }
-            })            
-        })
-        .catch (error => {
-            console.log(`Failed to create ingredient`, error);
-            res.sendStatus(500);
-        }) 
+            console.log(results);
+            res.sendStatus(204);
+        })          
+    })
+    .catch (error => {
+        console.log(`Failed to create ingredient`, error);
+        res.sendStatus(500);
+    })
 }
 
 const deleteIngredient = (req, res) => {

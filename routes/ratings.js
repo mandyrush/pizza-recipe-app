@@ -10,12 +10,12 @@ router.get('/ratings', controller.showRatings);
 router.get('/ratings/:id', controller.showRating);
 
 // Create a new rating
-router.post('/rating', controller.createRating);
+router.post('/ratings', controller.createRating);
 
 // Update a rating by it's id
-router.put('/rating/:id', updateRating);
+router.put('/ratings/:id', updateRating);
 
 // Delete a rating by it's id
-router.delete('/rating/:id', deleteRating);
+router.delete('/ratings/:id', deleteRating);
 
 module.exports = router;

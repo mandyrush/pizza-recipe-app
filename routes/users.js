@@ -9,10 +9,10 @@ router.get('/users', controller.getUsers)
 
 router.get('/users/:id', controller.getUserById)
 
-router.post('/user', controller.createUser)
+router.post('/users', controller.createUser)
 
-router.put('/user/:id', controller.updateUser)
+router.put('/users/:id', controller.updateUser)
 
-router.delete('/user/:id', controller.deleteUser)
+router.delete('/users/:id', controller.deleteUser)
 
 module.exports = router;

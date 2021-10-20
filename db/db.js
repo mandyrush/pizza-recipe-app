@@ -5,13 +5,7 @@ class Connection {
     constructor () {
         if (!this.pool) {
             console.log('Creating connection pool...');
-            this.pool = mysql.createPool({
-                connectionLimit: 100,
-                host: process.env.CLEARDB_HOST,
-                user: process.env.CLEARDB_USER,
-                password: process.env.CLEARDB_PASSWORD,
-                database: process.env.CLEARDB_DATABASE
-            })
+            this.pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
             return this.pool;
         }
         return this.pool;
@@ -19,5 +13,21 @@ class Connection {
 }
 
 const instance = new Connection();
+
+instance.queryWrapper = (query, params) => {
+    return new Promise((resolve, reject) => {
+        instance.query(query, params, (error, results) => {
+            if (error) {
+                console.log(`Database query failed`, error);
+                return reject(error);
+            } else {
+                console.log('Successfully processed database query');
+                resolve(results);
+            }
+        })
+    })
+}
+
+
 
 module.exports = instance;

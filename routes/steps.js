@@ -10,12 +10,12 @@ router.get('/steps', controller.getRecipeSteps);
 router.get('/steps/:id', controller.showRecipeStep);
 
 // Create a new step
-router.post('/step', controller.createStep);
+router.post('/steps', controller.createStep);
 
 // Update a step by it's id
-router.put('/step/:id', controller.updateStep);
+router.put('/steps/:id', controller.updateStep);
 
 // Delete a step by it's id
-router.delete('/step/:id', controller.deleteStep);
+router.delete('/steps/:id', controller.deleteStep);
 
 module.exports = router;

@@ -7,10 +7,10 @@ router.get('/images', controller.getRecipeImages)
 
 router.get('/images/:id', controller.getImageById)
 
-router.post('/image', controller.createImage)
+router.post('/images', controller.createImage)
 
-router.put('/image/:id', controller.setFeaturedImage)
+router.put('/images/:id', controller.setFeaturedImage)
 
-router.delete('/image/:id', controller.deleteImage)
+router.delete('/images/:id', controller.deleteImage)
 
 module.exports = router;

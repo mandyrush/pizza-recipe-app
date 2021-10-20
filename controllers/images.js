@@ -41,15 +41,13 @@ const createImage = (req, res) => {
     console.log('Create image route.');
 
     let image_path = req.body.image_path;
-    let recipe_id = req.body.recipe_id;
     let featured_image = false;
 
     let params = [];
     params.push(image_path);
-    params.push(recipe_id);
     params.push(featured_image);
 
-    let sql = "INSERT INTO images (image_path, recipe_id, featured_image) VALUES (?, ?, ?)"
+    let sql = "INSERT INTO images (image_path, featured_image) VALUES (?, ?)"
 
     db.query(sql, params, (error, results) => {
         if (error) {
