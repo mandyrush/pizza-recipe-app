@@ -10,12 +10,12 @@ create table projects (
 
 create table recipes (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(1000),
+    notes VARCHAR(1000),
     project_id INT NOT NULL,
     version INT NOT NULL,
     parent_version INT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
-    notes VARCHAR(10000),
 ) ENGINE=InnoDB;
 
 
@@ -40,7 +40,7 @@ create table steps (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     step VARCHAR(10000) NOT NULL,
     recipe_id INT NOT NULL,
-    order INT NOT NULL,
+    step_order INT NOT NULL,
     FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 ) ENGINE=InnoDB;
 
@@ -65,10 +65,17 @@ create table ratings (
 
 create table images (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    image_path VARCHAR(1000),
+    image_path VARCHAR(1000)
+) ENGINE=InnoDB;
+
+
+create table recipe_image (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     recipe_id INT NOT NULL,
-    featured_image BOOLEAN,
-    FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+    image_id INT NOT NULL,
+    featured_image BOOLEAN NOT NULL,
+    FOREIGN KEY (recipe_id) REFERENCES recipes(id),
+    FOREIGN KEY (image_id) REFERENCES images(id)
 ) ENGINE=InnoDB;
 
 
