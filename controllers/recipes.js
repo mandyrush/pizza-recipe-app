@@ -1,5 +1,4 @@
 let db = require('../db/db');
-const { param } = require('../routes/auth');
 
 const getRecipes = (req, res) => {
     console.log('Get all recipes route.');
@@ -37,7 +36,6 @@ const getRecipe = (req, res) => {
 }
 
 // Figure out logic for versions and parent versions
-
 // Create a new recipe
 const createRecipe = (req, res) => {
     console.log('Create a recipe route. ', req.body);

@@ -36,7 +36,7 @@ const showProject = (req, res) => {
 
 
 // @todo figure out how to store current logged in user
-// using temporary hard-coded user
+// using temporary hard-coded user - switch to storing token and save it in the token
 
 // Figure out featured image id - currently a chicken or egg situation...
 const createProject = (req, res) => {

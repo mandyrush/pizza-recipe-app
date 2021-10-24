@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { requiresAuth } = require('express-openid-connect');
+const controller = require('../controllers/auth');
+const middleware = require('../middleware/auth');
 
-require('dotenv').config();
+// Login
+router.post('/login', controller.login);
 
-let controller = require('../controllers/auth');
-
-router.get('/', controller.isLoggedIn);
-
-router.get('/profile', requiresAuth(), controller.viewProfile);
-
-// router.post('/login', controller.login);
+// GET /authOnly - This is only available to authenticated users
+// Returns a success message that includes the username based on the JWT token
+router.get('/authOnly', middleware.checkJWT, controller.authCheck);
 
 module.exports = router;

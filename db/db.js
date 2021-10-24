@@ -28,6 +28,4 @@ instance.queryWrapper = (query, params) => {
     })
 }
 
-
-
 module.exports = instance;

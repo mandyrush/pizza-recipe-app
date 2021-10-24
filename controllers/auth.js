@@ -1,98 +1,87 @@
-// const axios = require('axios');
-// const mysql = require('mysql');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const pool = require('../db/db');
+const db = require('../db/db');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config();
-// const { handleSQLError } = require('../db/error')
 
+let login = (req, res) => {
+  console.log('Login Route: ', req.body.username);
 
-const isLoggedIn = (req, res) => {
-  // I can get the email from this
-  console.log('Request: ', req.oidc.user);
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+  // Get the username and password from the request
+  const username = req.body.username;
+  const password = req.body.password;
+
+  let sql = 'SELECT username, password_hash, role FROM users WHERE username = ?';
+
+  let params = [];
+  params.push(username);
+
+  // select username, role and stored hash from the db for the user passed in
+  db.query(sql, params, (error, rows) => {
+      // assume the provided password is bad
+      let goodPassword = false;
+      let role;
+
+      // if the database failed then log an error
+      if (error) {
+          console.error('Error when querying the db', error);
+      }
+
+      // if the database returned too many rows then log the error
+      if (rows.length > 1) {
+          console.error("Found too many rows with the username ", username);
+      }
+
+      // if the database returned no rows, then log it, but its not an error
+      // maybe the username never signed up with our application
+      if (rows.length == 0) {
+          console.log('Did not find a row with this username ', username);
+      }
+
+      // if query ran without an error, and only 1 row came back,
+      // then check the stored hash against the password provided in the request
+      if (!error && rows.length == 1) {
+          row = rows[0];
+
+          // get the stored hash from the database
+          let hash = row.password_hash;
+
+          // get the role from the database
+          role = row.role;
+
+          // check that the hash in the database matches the password provided
+          goodPassword = bcrypt.compareSync(password, hash);
+      }
+
+      // if the password provided is good then return a signed copy of the access token
+      if (goodPassword) {
+          // the token should include things that you are sending back to the client
+          // which include the username and role
+          // not a good idea to send the password or the hash of the password back
+          const unsignedToken = {
+              username: username,
+              role: role
+          };
+          // sign the token using the JWT secret
+          let jwtSecret = process.env.JWT_SECRET;
+          const accessToken = jwt.sign(unsignedToken, jwtSecret);
+
+          // send the signed token back
+          res.json(accessToken);
+      } else {
+          // if the password provided was not good, or was not able to be verified
+          // send an unauthorized message and code back
+          res.status(401).send("Unauthorized");
+      }
+  });
 }
 
-const viewProfile = (req, res) => {
-  // I can get the email from this
-  console.log('Request: ', req.oidc.user);
-  res.send(JSON.stringify(req.oidc.user));
+let authCheck = (req, res) => {
+  console.log('Successful Authorization Check Route');
+  res.json(`Successfully passed the authorization check, ${req.username}`);
 }
-
-// const saltRounds = 10;
-
-// const signup = (req, res) => {
-//   const { username, password } = req.body
-//   let sql = "INSERT INTO users_credentials (username, password) VALUES (?, ?)"
-
-//   bcrypt.hash(password, saltRounds, function(err, hash) {
-//     sql = mysql.format(sql, [ username, hash ])
-  
-//     pool.query(sql, (err, result) => {
-//       if (err) {
-//         if (err.code === 'ER_DUP_ENTRY') return res.status(409).send('Username is taken')
-//         return handleSQLError(res, err)
-//       }
-//       return res.send('Sign-up successful')
-//     })
-//   })
-// }
-
-// const login = (req, res) => {
-//     const { username, password } = req.body
-  
-//     axios(`https://${process.env.AUTH0_DOMAIN}/oauth/token`, {
-//       method: 'POST',
-//       headers: {
-//         'content-type': 'application/json'
-//       },
-//       data: {
-//         grant_type: 'password',
-//         username: username,
-//         password: password,
-//         audience: process.env.AUTH0_IDENTITY,
-//         connection: 'Username-Password-Authentication',
-//         client_id: process.env.AUTH0_CLIENT_ID,
-//         client_secret: process.env.AUTH0_CLIENT_SECRET
-//       }
-//     })
-//     .then(response => {
-//       const { access_token } = response.data
-//       res.json({
-//         access_token
-//       })
-//     })
-//     .catch(e => {
-//       res.send(e)
-//     })
-  
-    // let sql = "SELECT * FROM users_credentials WHERE username = ?"
-    // sql = mysql.format(sql, [ username ])
-  
-    // pool.query(sql, (err, rows) => {
-    //   if (err) return handleSQLError(res, err)
-    //   if (!rows.length) return res.status(404).send('No matching users')
-  
-    //   const hash = rows[0].password
-    //   bcrypt.compare(password, hash)
-    //     .then(result => {
-    //       if (!result) return res.status(400).send('Invalid password')
-  
-    //       const data = { ...rows[0] }
-    //       data.password = 'REDACTED'
-  
-    //       const token = jwt.sign(data, 'secret')
-    //       res.json({
-    //         msg: 'Login successful',
-    //         token
-    //       })
-    //     })
-    // })
-  // }
 
 module.exports = {
-    // signup,
-    // login,
-    isLoggedIn,
-    viewProfile
+    login,
+    authCheck
 }

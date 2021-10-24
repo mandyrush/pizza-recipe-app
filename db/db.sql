@@ -72,8 +72,10 @@ create table images (
 ) ENGINE=InnoDB;
 
 
-CREATE TABLE users (
-  id INT NOT NULL AUTO_INCREMENT,
-  email VARCHAR(255) UNIQUE,
-  PRIMARY KEY (id)
-)ENGINE=InnoDB;
+create table users (
+    id INT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
