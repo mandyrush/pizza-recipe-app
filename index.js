@@ -1,7 +1,9 @@
 let express = require('express');
 require('dotenv').config();
-
+const cors = require("cors");
 let app = express();
+
+app.use(cors());
 
 // Add functionality to parse json body
 app.use(express.json());
@@ -15,7 +17,7 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth');
 app.use(authRoutes);
 
-const projectRoutes =require('./routes/projects');
+const projectRoutes = require('./routes/projects');
 app.use(projectRoutes);
 
 const recipeRoutes = require('./routes/recipes');
