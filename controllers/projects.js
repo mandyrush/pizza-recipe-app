@@ -18,8 +18,8 @@ const showProjects = (req, res) => {
 
 const showProject = (req, res) => {
     console.log('Show single project by id route. ', req.params.id);
-    
-    let id = req. params.id;
+
+    let id = req.params.id;
 
     let sql = 'SELECT * FROM projects WHERE id = ?';
 
@@ -44,7 +44,7 @@ const createProject = (req, res) => {
 
     let name = req.body.name;
     let featured_image_id = req.body.featured_image_id;
-    let user_id = 35;
+    let user_id = 5;
 
     let params = [];
     params.push(name);
