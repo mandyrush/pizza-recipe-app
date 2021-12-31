@@ -70,7 +70,7 @@ const updateProject = (req, res) => {
     let id = req.params.id;
     let name = req.body.name;
     let featured_image_id = req.body.featured_image_id;
-    let user_id = 35;
+    let user_id = 5;
 
     let params = [];
     params.push(name);
