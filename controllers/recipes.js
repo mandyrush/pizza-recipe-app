@@ -65,7 +65,7 @@ const createRecipe = (req, res) => {
             res.sendStatus(500);
         } else {
             console.log('Recipe successfully created!');
-            res.sendStatus(204);
+            res.status(201).send(results);
         }
     })
 }
