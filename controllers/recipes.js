@@ -3,7 +3,7 @@ let db = require('../db/db');
 const getRecipes = (req, res) => {
     console.log('Get all recipes route.');
 
-    let project_id = req.body.project_id;
+    let project_id = req.query.project;
     let sql = 'SELECT * FROM recipes WHERE project_id = ?';
 
     db.query(sql, project_id, (error, results) => {
@@ -49,7 +49,7 @@ const createRecipe = (req, res) => {
 
     // Create sql statement with placeholders to prevent sql injection
     let sql = "INSERT INTO recipes (name, notes, project_id, version, parent_version) values (?, ?, ?, ?, ?)";
-    
+
     // Create parameters to replace sql statement placeholders
     let params = [];
     params.push(name);
@@ -67,7 +67,7 @@ const createRecipe = (req, res) => {
             console.log('Recipe successfully created!');
             res.sendStatus(204);
         }
-    })  
+    })
 }
 
 const updateRecipe = (req, res) => {
@@ -84,7 +84,7 @@ const updateRecipe = (req, res) => {
 
     // Create sql statement with placeholders to prevent sql injection
     let sql = "UPDATE recipes SET name = ?, notes = ?, project_id = ?, version = ?, parent_version = ? WHERE id = ?";
-    
+
     // Create parameters to replace sql statement placeholders
     let params = [];
     params.push(name);
