@@ -3,7 +3,7 @@ let db = require('../db/db');
 const getRecipeSteps = (req, res) => {
     console.log('Show all steps route.');
 
-    let recipe_id = req.body.recipe_id;
+    let recipe_id = req.query.recipe;
 
     let sql = 'SELECT * FROM steps WHERE recipe_id = ?';
 
@@ -21,7 +21,7 @@ const getRecipeSteps = (req, res) => {
 const showRecipeStep = (req, res) => {
     console.log('Show single step by id route. ', req.params.id);
 
-    let id = req. params.id;
+    let id = req.params.id;
 
     let sql = 'SELECT * FROM steps WHERE id = ?';
 
