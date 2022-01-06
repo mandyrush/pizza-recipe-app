@@ -13,9 +13,9 @@ router.get('/ratings/:id', controller.showRating);
 router.post('/ratings', controller.createRating);
 
 // Update a rating by it's id
-router.put('/ratings/:id', updateRating);
+router.put('/ratings/:id', controller.updateRating);
 
 // Delete a rating by it's id
-router.delete('/ratings/:id', deleteRating);
+router.delete('/ratings/:id', controller.deleteRating);
 
 module.exports = router;

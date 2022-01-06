@@ -70,39 +70,6 @@ const createIngredient = (req, res) => {
             console.log(`Failed to create ingredient`, error);
             res.sendStatus(500);
         })
-
-    // @todo - Figure out how to convert to async await
-    // async function addIngredient() {
-    //     let name = req.body.name;
-    //     let addNamesql = 'INSERT INTO ingredients (name) VALUES (?)';
-    //     let response = await db.queryWrapper(addNamesql, name);
-
-    //     if (!response.ok) {
-    //         throw new Error('HTTP error! status: 503');
-    //     }
-
-    //     console.log('Got the insert id: ', response.insertId);
-
-    //     let ingredient_id = response.insertId;
-    //     let recipe_id = req.body.recipe_id;
-    //     let quantity = req.body.quantity;
-    //     let notes = req.body.notes;
-
-    //     let params = [];
-    //     params.push(ingredient_id);
-    //     params.push(recipe_id);
-    //     params.push(quantity);
-    //     params.push(notes);
-
-    //     let sql = 'INSERT INTO recipe_ingredient (ingredient_id, recipe_id, quantity, notes) VALUES (?, ?, ?, ?)';
-
-    //     await db.queryWrapper(sql, params);
-    // }
-    // addIngredient()
-    // .catch (error => {
-    //     console.log(`Failed to create ingredient`, error);
-    //     res.sendStatus(500);
-    // })
 }
 
 const updateIngredient = (req, res) => {

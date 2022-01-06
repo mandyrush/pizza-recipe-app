@@ -29,6 +29,9 @@ app.use(ingredientRoutes);
 const stepRoutes = require('./routes/steps');
 app.use(stepRoutes);
 
+const ratingRoutes = require('./routes/ratings');
+app.use(ratingRoutes);
+
 const imageRoutes = require('./routes/images');
 app.use(imageRoutes);
 
