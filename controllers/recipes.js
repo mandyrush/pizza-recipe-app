@@ -4,7 +4,28 @@ const getRecipes = (req, res) => {
     console.log('Get all recipes route.');
 
     let project_id = req.query.project;
-    let sql = 'SELECT * FROM recipes WHERE project_id = ?';
+    // let sql = 'SELECT * FROM recipes WHERE project_id = ?';
+
+    let sql = `SELECT 
+                    recipes.id AS recipe_id,
+                    recipes.name,
+                    recipes.notes,
+                    recipes.project_id,
+                    recipes.version,
+                    recipes.parent_version,
+                    recipes.lastUpdated,
+                    ratings.id AS rating_id,
+                    ratings.rating_category_id,
+                    ratings.score,
+                    ratings.comments
+                FROM 
+                    recipes 
+                LEFT JOIN 
+                    ratings 
+                ON 
+                    recipes.id = ratings.recipe_id 
+                WHERE 
+                    project_id = ?`;
 
     db.query(sql, project_id, (error, results) => {
         if (error) {
