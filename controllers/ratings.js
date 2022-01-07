@@ -5,7 +5,7 @@ const showRatings = (req, res) => {
 
     let recipe_id = req.query.recipe;
 
-    let sql = 'SELECT * FROM ratings WHERE recipe_id = ?';
+    let sql = 'SELECT * FROM ratings INNER JOIN rating_categories ON ratings.rating_category_id = rating_categories.id WHERE recipe_id = ?';
 
     db.query(sql, recipe_id, (error, rows) => {
         if (error) {
