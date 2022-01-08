@@ -32,6 +32,9 @@ app.use(stepRoutes);
 const ratingRoutes = require('./routes/ratings');
 app.use(ratingRoutes);
 
+const ratingCategoryRoutes = require('./routes/ratingCategories');
+app.use(ratingCategoryRoutes);
+
 const imageRoutes = require('./routes/images');
 app.use(imageRoutes);
 
