@@ -39,7 +39,7 @@ const showRating = (req, res) => {
 const createRating = (req, res) => {
     console.log('Create new rating route. ', req.body);
 
-    let recipe_id = req.query.recipe;
+    let recipe_id = req.body.recipe_id;
     let rating_category_id = req.body.rating_category_id;
     let score = req.body.score;
     let comments = req.body.comments;
