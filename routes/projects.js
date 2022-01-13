@@ -8,15 +8,15 @@ const middleware = require('../middleware/auth');
 router.get('/projects', middleware.checkJWT, controller.showProjects);
 
 // Get a single project by it's id
-router.get('/projects/:id', controller.showProject);
+router.get('/projects/:id', middleware.checkJWT, controller.showProject);
 
 // Create a new project
-router.post('/projects', controller.createProject);
+router.post('/projects', middleware.checkJWT, controller.createProject);
 
 // Update a project by it's id
-router.put('/projects/:id', controller.updateProject);
+router.put('/projects/:id', middleware.checkJWT, controller.updateProject);
 
 // Delete a project by it's id
-router.delete('/projects/:id', controller.deleteProject);
+router.delete('/projects/:id', middleware.checkJWT, controller.deleteProject);
 
 module.exports = router;
