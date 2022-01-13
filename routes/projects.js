@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const controller = require('../controllers/projects');
+const middleware = require('../middleware/auth');
 
 // Get all projects
-router.get('/projects', controller.showProjects);
+router.get('/projects', middleware.checkJWT, controller.showProjects);
 
 // Get a single project by it's id
 router.get('/projects/:id', controller.showProject);
