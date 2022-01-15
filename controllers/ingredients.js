@@ -62,7 +62,7 @@ const createIngredient = (req, res) => {
                 .then(
                     results => {
                         console.log(results);
-                        res.sendStatus(204);
+                        res.status(201).send({ ingredientId: ingredient_id });
                     }
                 )
         })
