@@ -3,9 +3,11 @@ let db = require('../db/db');
 const showProjects = (req, res) => {
     console.log('Show all projects route.');
 
-    let sql = 'SELECT * FROM projects';
+    let user_id = req.params.user_id;
 
-    db.query(sql, (error, rows) => {
+    let sql = 'SELECT * FROM projects WHERE user_id = ?';
+
+    db.query(sql, user_id, (error, rows) => {
         if (error) {
             console.log('Failed to get all projects');
             res.sendStatus(500);
@@ -44,7 +46,7 @@ const createProject = (req, res) => {
 
     let name = req.body.name;
     let featured_image_id = req.body.featured_image_id;
-    let user_id = 5;
+    let user_id = req.body.user_id;
 
     let params = [];
     params.push(name);
@@ -70,7 +72,7 @@ const updateProject = (req, res) => {
     let id = req.params.id;
     let name = req.body.name;
     let featured_image_id = req.body.featured_image_id;
-    let user_id = 5;
+    let user_id = req.body.user_id;
 
     let params = [];
     params.push(name);
