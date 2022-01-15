@@ -3,7 +3,7 @@ let db = require('../db/db');
 const showProjects = (req, res) => {
     console.log('Show all projects route.');
 
-    let user_id = req.params.user_id;
+    let user_id = req.query.user_id;
 
     let sql = 'SELECT * FROM projects WHERE user_id = ?';
 
