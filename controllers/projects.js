@@ -46,7 +46,7 @@ const createProject = (req, res) => {
 
     let name = req.body.name;
     let featured_image_id = req.body.featured_image_id;
-    let user_id = req.query.user_id;
+    let user_id = req.body.user_id;
 
     let params = [];
     params.push(name);
