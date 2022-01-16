@@ -56,7 +56,9 @@ const createStep = (req, res) => {
             res.sendStatus(500);
         } else {
             console.log('Successfully created step!');
-            res.sendStatus(204);
+            res.status(201).send({
+                stepId: rows.insertId
+            });
         }
     })
 }
