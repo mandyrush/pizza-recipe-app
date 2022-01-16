@@ -17,6 +17,6 @@ router.post('/ingredients', middleware.checkJWT, controller.createIngredient);
 router.put('/ingredients/:id', middleware.checkJWT, controller.updateIngredient);
 
 // Delete an ingredient by it's id
-router.delete('/ingredients/:id', middleware.checkJWT, controller.deleteIngredient);
+router.delete('/ingredients', middleware.checkJWT, controller.deleteIngredient);
 
 module.exports = router;
