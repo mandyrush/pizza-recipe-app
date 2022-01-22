@@ -11,7 +11,7 @@ router.get('/users', middleware.checkJWT, controller.getUsers);
 router.get('/users/:id', middleware.checkJWT, controller.getUserById);
 
 // Create new user
-router.post('/users', middleware.checkJWT, controller.createUser);
+router.post('/users', controller.createUser);
 
 // Update user password
 router.put('/users/:id', middleware.checkJWT, controller.updateUser);
