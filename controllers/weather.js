@@ -7,9 +7,6 @@ const showWeather = (req, res) => {
     let latitude = req.query.latitude;
     let longitude = req.query.longitude;
 
-    console.log('Latitude', latitude);
-    console.log('Longitude', longitude);
-
     axios.get(`https://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${latitude},${longitude}&aqi=no`)
         .then(response => {
             res.json(response.data);
