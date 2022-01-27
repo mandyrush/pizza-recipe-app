@@ -113,38 +113,6 @@ const updateIngredient = (req, res) => {
         })
 }
 
-// const deleteIngredient = (req, res) => {
-//     console.log('Delete an ingredient by id route. ', req.params.id);
-
-//     let ingredient_id = req.body.ingredient_id;
-
-//     let sql = 'DELETE FROM ingredients WHERE id = ?';
-
-//     db.query(sql, ingredient_id, (error, results) => {
-//         if (error) {
-//             console.log('Failed to delete ingredient.', error);
-//             res.sendStatus(500);
-//         } else {
-//             console.log(`Successfully deleted ingredient with id: ${ingredient_id}`);
-
-//             let recipe_ingredient_id = req.body.recipe_ingredient_id;
-
-//             let sql = 'DELETE FROM recipe_ingredient WHERE id = ?';
-
-//             db.query(sql, recipe_ingredient_id, (error, results) => {
-//                 if (error) {
-//                     console.log('Failed to delete recipe_ingredient.', error);
-//                     res.sendStatus(500)
-//                 } else {
-//                     console.log(`Successfully deleted recipe_ingredient with id: ${recipe_ingredient_id}`);
-//                     res.sendStatus(204);
-//                 }
-//             })
-//         }
-//     })
-// }
-
-
 const deleteIngredient = (req, res) => {
     console.log('Delete an ingredient by id route. ', req.params.id);
 

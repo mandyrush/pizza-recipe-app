@@ -41,6 +41,9 @@ app.use(imageRoutes);
 const userRoutes = require('./routes/users');
 app.use(userRoutes);
 
+const weatherRoutes = require('./routes/weather');
+app.use(weatherRoutes);
+
 app.listen(port, () => {
     console.log('Listening on port ', port);
 });
