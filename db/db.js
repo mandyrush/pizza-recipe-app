@@ -1,11 +1,25 @@
-let mysql = require('mysql');
+let mysql = require('mysql2');
 require('dotenv').config();
 
 class Connection {
     constructor () {
         if (!this.pool) {
             console.log('Creating connection pool...');
-            this.pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
+            
+            if (process.env.NODE_ENV === 'development') {
+                this.pool = mysql.createPool({
+                    connectionLimit : 10,
+                    port: process.env.LOCAL_PORT,
+                    host     : process.env.LOCAL_HOST,
+                    user     : process.env.LOCAL_USERNAME,
+                    password : process.env.LOCAL_PASSWORD,
+                    database : process.env.LOCAL_DB,
+                    debug    :  false
+                })
+            } else {
+                this.pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
+            }
+            
             return this.pool;
         }
         return this.pool;
