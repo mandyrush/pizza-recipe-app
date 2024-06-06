@@ -1,5 +1,6 @@
-let mysql = require('mysql2');
+let pg = require('pg');
 require('dotenv').config();
+const { Pool } = pg
 
 class Connection {
     constructor () {
@@ -7,17 +8,15 @@ class Connection {
             console.log('Creating connection pool...');
             
             if (process.env.NODE_ENV === 'development') {
-                this.pool = mysql.createPool({
-                    connectionLimit : 10,
+                this.pool = new Pool({
                     port: process.env.LOCAL_PORT,
                     host     : process.env.LOCAL_HOST,
                     user     : process.env.LOCAL_USERNAME,
                     password : process.env.LOCAL_PASSWORD,
-                    database : process.env.LOCAL_DB,
-                    debug    :  false
+                    database : process.env.LOCAL_DB,  
                 })
             } else {
-                this.pool = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
+                this.pool = new Pool(process.env.DATABASE_URL);
             }
             
             return this.pool;
